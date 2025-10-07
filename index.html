@@ -12,8 +12,8 @@
             --dark-border: #333333;
             --text-primary: #ffffff;
             --text-secondary: #e0e0e0;
-            --accent: #ff4444;
-            --accent-dark: #cc3333;
+            --accent: #800020;
+            --accent-dark: #600018;
             --transition: all 0.3s ease;
         }
 
@@ -29,7 +29,33 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* Dynamic background lines */
+        .lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: rgba(128, 0, 32, 0.1);
+            transform-origin: top;
+        }
+
+        .line:nth-child(1) { left: 10%; }
+        .line:nth-child(2) { left: 30%; }
+        .line:nth-child(3) { left: 50%; }
+        .line:nth-child(4) { left: 70%; }
+        .line:nth-child(5) { left: 90%; }
 
         .container {
             max-width: 1200px;
@@ -38,17 +64,37 @@
         }
 
         header {
-            padding: 3rem 0 2rem 0;
+            padding: 2rem 0;
             text-align: center;
+            background-color: var(--dark-surface);
             border-bottom: 1px solid var(--dark-border);
-            margin-bottom: 2rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
         }
 
-        .name {
-            font-size: 3rem;
+        .logo {
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--accent);
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .nickname {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
         }
 
         .tabs-container {
@@ -56,24 +102,31 @@
             justify-content: center;
             margin: 2rem 0;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
         }
 
         .tab {
-            padding: 15px 40px;
+            padding: 12px 30px;
             background-color: var(--dark-card);
             border: 1px solid var(--dark-border);
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
         }
 
         .tab:hover {
             color: var(--text-primary);
             border-color: var(--accent);
+            transform: translateY(-2px);
         }
 
         .tab.active {
@@ -82,13 +135,161 @@
             border-color: var(--accent);
         }
 
+        .tab:nth-child(1) { animation-delay: 0.6s; }
+        .tab:nth-child(2) { animation-delay: 0.7s; }
+        .tab:nth-child(3) { animation-delay: 0.8s; }
+
         .tab-content {
             display: none;
-            padding: 2rem 0;
+            padding: 2rem;
+            background-color: var(--dark-surface);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--dark-border);
+            animation: fadeIn 0.5s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 1s forwards;
         }
 
         .tab-content.active {
             display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Price Tab Styles */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--dark-border);
+            color: var(--text-primary);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            color: var(--accent);
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .service-category {
+            margin-bottom: 3rem;
+        }
+
+        .service-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        /* Bio Tab Styles */
+        .bio-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
+            color: var(--text-primary);
+        }
+
+        .profile-img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .bio-text h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent);
         }
 
         .info-card {
@@ -123,60 +324,19 @@
             font-size: 1rem;
         }
 
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .pricing-card {
-            background-color: var(--dark-card);
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid var(--dark-border);
-            transition: var(--transition);
-        }
-
-        .pricing-card:hover {
-            border-color: var(--accent);
-        }
-
-        .service-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .price-item {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--dark-border);
-        }
-
-        .price-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .price-amount {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-        }
-
-        .price-details {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
+        /* Project Tab Styles */
         .project-card {
             background-color: var(--dark-card);
             border-radius: 12px;
             padding: 2rem;
+            margin-top: 2rem;
             border: 1px solid var(--dark-border);
+            transition: var(--transition);
+            color: var(--text-primary);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
         }
 
         .project-title {
@@ -187,18 +347,56 @@
 
         .project-description {
             color: var(--text-secondary);
-            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            color: var(--text-primary);
         }
 
         footer {
             text-align: center;
-            padding: 3rem 0;
+            padding: 2rem 0;
             color: var(--text-secondary);
             border-top: 1px solid var(--dark-border);
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .telegram-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .bio-content {
+                grid-template-columns: 1fr;
+            }
+            
             .tabs-container {
                 flex-direction: column;
                 align-items: center;
@@ -206,21 +404,30 @@
             
             .tab {
                 width: 100%;
-                max-width: 250px;
-            }
-            
-            .pricing-cards {
-                grid-template-columns: 1fr;
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="name">Central</div>
-        </header>
+    <!-- Dynamic background lines -->
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
 
+    <header>
+        <div class="container">
+            <div class="logo">Central</div>
+            <p class="tagline">OSINT Specialist | Social Engineering</p>
+            <div class="nickname">@central</div>
+        </div>
+    </header>
+
+    <div class="container">
         <div class="tabs-container">
             <button class="tab active" data-tab="bio">BIO</button>
             <button class="tab" data-tab="price">PRICE</button>
@@ -228,6 +435,8 @@
         </div>
 
         <div id="bio" class="tab-content active">
+            <h2>Информация</h2>
+            
             <div class="info-card">
                 <div class="info-section">
                     <div class="info-label">Name</div>
@@ -250,37 +459,69 @@
         </div>
 
         <div id="price" class="tab-content">
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <h3 class="service-title">Деф (DEFF)</h3>
-                    <div class="price-item">
-                        <div class="price-amount">3 месяца</div>
-                        <div class="price-details">200 Telegram stars - 6$ @CryptoBot</div>
+            <h2>Услуги и цены</h2>
+            <p>Специализированные OSINT услуги</p>
+            
+            <div class="service-category">
+                <h3>Защита (DEFF)</h3>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <h3>3 месяца</h3>
+                        <div class="price">200 <span>Telegram stars</span></div>
+                        <div class="price">6$ <span>@CryptoBot</span></div>
+                        <ul class="features">
+                            <li>Базовая защита цифровой личности</li>
+                            <li>Консультации по безопасности</li>
+                        </ul>
+                        <a href="#" class="btn">Заказать</a>
                     </div>
-                    <div class="price-item">
-                        <div class="price-amount">6 месяцев</div>
-                        <div class="price-details">250 Telegram stars - 7$ @CryptoBot</div>
+                    
+                    <div class="pricing-card">
+                        <h3>6 месяцев</h3>
+                        <div class="price">250 <span>Telegram stars</span></div>
+                        <div class="price">7$ <span>@CryptoBot</span></div>
+                        <ul class="features">
+                            <li>Расширенная защита</li>
+                            <li>Постоянный мониторинг</li>
+                        </ul>
+                        <a href="#" class="btn">Заказать</a>
                     </div>
-                    <div class="price-item">
-                        <div class="price-amount">Навсегда</div>
-                        <div class="price-details">300 Telegram stars - 8$ @CryptoBot</div>
+                    
+                    <div class="pricing-card">
+                        <h3>Навсегда</h3>
+                        <div class="price">300 <span>Telegram stars</span></div>
+                        <div class="price">8$ <span>@CryptoBot</span></div>
+                        <ul class="features">
+                            <li>Полная защита</li>
+                            <li>Пожизненная поддержка</li>
+                        </ul>
+                        <a href="#" class="btn">Заказать</a>
                     </div>
                 </div>
-                
-                <div class="pricing-card">
-                    <h3 class="service-title">Поиск информации</h3>
-                    <div class="price-item">
-                        <div class="price-amount">3$ - 18$</div>
-                        <div class="price-details">100 - 600 Telegram stars</div>
-                    </div>
-                    <div class="price-details" style="margin-top: 1rem;">
-                        Стоимость зависит от сложности поиска
+            </div>
+            
+            <div class="service-category">
+                <h3>Поиск информации</h3>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <h3>Поиск информации</h3>
+                        <div class="price">3$-18$</div>
+                        <div class="price">100-600 <span>Telegram stars</span></div>
+                        <ul class="features">
+                            <li>Зависит от сложности поиска</li>
+                            <li>Индивидуальный подход</li>
+                            <li>Конфиденциальность</li>
+                        </ul>
+                        <a href="#" class="btn">Заказать</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="project" class="tab-content">
+            <h2>Проекты</h2>
+            <p>Мои текущие проекты</p>
+            
             <div class="project-card">
                 <h3 class="project-title">FortunessWheel</h3>
                 <p class="project-description">
@@ -293,7 +534,13 @@
 
     <footer>
         <div class="container">
-            <p>© 2024 Central</p>
+            <p>© 2024 Central | OSINT Specialist</p>
+            <div class="contact-info">
+                <p>Связь через Telegram:</p>
+                <a href="#" class="telegram-link">
+                    @central
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -301,7 +548,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
+            const lines = document.querySelectorAll('.line');
             
+            // Tab switching functionality
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     tabs.forEach(t => t.classList.remove('active'));
@@ -310,6 +559,18 @@
                     tab.classList.add('active');
                     const tabId = tab.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Dynamic lines animation
+            document.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                lines.forEach((line, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const x = (mouseX * speed * 10) - 5;
+                    line.style.transform = `translateX(${x}px)`;
                 });
             });
         });
