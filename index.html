@@ -14,6 +14,7 @@
             --text-secondary: #e0e0e0;
             --accent: #800020;
             --accent-dark: #600018;
+            --accent-light: #a00028;
             --transition: all 0.3s ease;
         }
 
@@ -30,32 +31,56 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
         }
 
-        /* Dynamic background lines */
-        .lines {
+        /* Advanced Background Effects */
+        .particles-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: -2;
         }
 
-        .line {
+        .particle {
             position: absolute;
-            width: 1px;
-            height: 100%;
-            background: rgba(128, 0, 32, 0.1);
-            transform-origin: top;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s infinite ease-in-out;
         }
 
-        .line:nth-child(1) { left: 10%; }
-        .line:nth-child(2) { left: 30%; }
-        .line:nth-child(3) { left: 50%; }
-        .line:nth-child(4) { left: 70%; }
-        .line:nth-child(5) { left: 90%; }
+        .pulse-circle {
+            position: absolute;
+            border: 1px solid rgba(128, 0, 32, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.1s ease;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(128, 0, 32, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(128, 0, 32, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(128, 0, 32, 0.05) 0%, transparent 50%);
+            z-index: -3;
+            pointer-events: none;
+        }
 
         .container {
             max-width: 1200px;
@@ -66,18 +91,38 @@
         header {
             padding: 2rem 0;
             text-align: center;
-            background-color: var(--dark-surface);
+            background-color: rgba(17, 17, 17, 0.8);
             border-bottom: 1px solid var(--dark-border);
             position: relative;
             opacity: 0;
             animation: fadeInUp 0.8s ease 0.2s forwards;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 800;
             margin-bottom: 0.5rem;
-            color: var(--accent);
+            background: linear-gradient(
+                45deg,
+                #800020,
+                #a00028,
+                #c00030,
+                #a00028,
+                #800020
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(128, 0, 32, 0.5);
+            letter-spacing: 2px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .tagline {
@@ -127,6 +172,7 @@
             color: var(--text-primary);
             border-color: var(--accent);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(128, 0, 32, 0.3);
         }
 
         .tab.active {
@@ -149,6 +195,7 @@
             animation: fadeIn 0.5s ease;
             opacity: 0;
             animation: fadeInUp 0.8s ease 1s forwards;
+            backdrop-filter: blur(10px);
         }
 
         .tab-content.active {
@@ -206,11 +253,29 @@
             transition: var(--transition);
             border: 1px solid var(--dark-border);
             color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(128, 0, 32, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .pricing-card:hover::before {
+            left: 100%;
         }
 
         .pricing-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(128, 0, 32, 0.2);
         }
 
         .price {
@@ -251,12 +316,30 @@
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
             background: var(--accent);
             color: var(--dark-bg);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(128, 0, 32, 0.4);
         }
 
         .service-category {
@@ -272,32 +355,24 @@
         }
 
         /* Bio Tab Styles */
-        .bio-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: start;
-            color: var(--text-primary);
-        }
-
-        .profile-img {
-            width: 100%;
-            border-radius: 12px;
-            border: 1px solid var(--dark-border);
-        }
-
-        .bio-text h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent);
-        }
-
         .info-card {
             background-color: var(--dark-card);
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
             border: 1px solid var(--dark-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
         }
 
         .info-section {
@@ -333,10 +408,24 @@
             border: 1px solid var(--dark-border);
             transition: var(--transition);
             color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
         }
 
         .project-card:hover {
             border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(128, 0, 32, 0.2);
         }
 
         .project-title {
@@ -358,10 +447,15 @@
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
+            padding: 8px 16px;
+            border: 1px solid var(--accent);
+            border-radius: 6px;
         }
 
         .project-link:hover {
-            color: var(--text-primary);
+            background: var(--accent);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
         }
 
         footer {
@@ -370,6 +464,8 @@
             color: var(--text-secondary);
             border-top: 1px solid var(--dark-border);
             margin-top: 2rem;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .contact-info {
@@ -406,24 +502,24 @@
                 width: 100%;
                 max-width: 300px;
             }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Dynamic background lines -->
-    <div class="lines">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
+    <!-- Advanced Background Effects -->
+    <div class="gradient-bg"></div>
+    <div class="particles-container" id="particles"></div>
+    <div id="pulseCircles"></div>
 
     <header>
         <div class="container">
             <div class="logo">Central</div>
             <p class="tagline">OSINT Specialist | Social Engineering</p>
-            <div class="nickname">@cenntraal</div>
+            <div class="nickname">@central</div>
         </div>
     </header>
 
@@ -473,7 +569,7 @@
                             <li>Базовая защита цифровой личности</li>
                             <li>Консультации по безопасности</li>
                         </ul>
-                        <a href="#" class="btn">Заказать</a>
+                        <a href="https://t.me/cenntraal" class="btn" target="_blank">Заказать</a>
                     </div>
                     
                     <div class="pricing-card">
@@ -484,7 +580,7 @@
                             <li>Расширенная защита</li>
                             <li>Постоянный мониторинг</li>
                         </ul>
-                        <a href="#" class="btn">Заказать</a>
+                        <a href="https://t.me/cenntraal" class="btn" target="_blank">Заказать</a>
                     </div>
                     
                     <div class="pricing-card">
@@ -495,7 +591,7 @@
                             <li>Полная защита</li>
                             <li>Пожизненная поддержка</li>
                         </ul>
-                        <a href="#" class="btn">Заказать</a>
+                        <a href="https://t.me/cenntraal" class="btn" target="_blank">Заказать</a>
                     </div>
                 </div>
             </div>
@@ -512,7 +608,7 @@
                             <li>Индивидуальный подход</li>
                             <li>Конфиденциальность</li>
                         </ul>
-                        <a href="#" class="btn">Заказать</a>
+                        <a href="https://t.me/cenntraal" class="btn" target="_blank">Заказать</a>
                     </div>
                 </div>
             </div>
@@ -528,6 +624,9 @@
                     Колесо фортуны - проект для случайного выбора и принятия решений. 
                     Инструмент для различных ситуаций, где требуется элемент случайности.
                 </p>
+                <a href="https://t.me/FortunessWheel" class="project-link" target="_blank">
+                    Перейти в канал →
+                </a>
             </div>
         </div>
     </div>
@@ -537,7 +636,7 @@
             <p>© 2024 Central | OSINT Specialist</p>
             <div class="contact-info">
                 <p>Связь через Telegram:</p>
-                <a href="#" class="telegram-link">
+                <a href="https://t.me/cenntraal" class="telegram-link" target="_blank">
                     @cenntraal
                 </a>
             </div>
@@ -548,7 +647,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
-            const lines = document.querySelectorAll('.line');
             
             // Tab switching functionality
             tabs.forEach(tab => {
@@ -561,17 +659,69 @@
                     document.getElementById(tabId).classList.add('active');
                 });
             });
-            
-            // Dynamic lines animation
+
+            // Create particles
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+
+            // Mouse interaction effects
+            const pulseContainer = document.getElementById('pulseCircles');
+            let circles = [];
+
             document.addEventListener('mousemove', (e) => {
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
+                createPulseCircle(e.clientX, e.clientY);
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                createPulseCircle(touch.clientX, touch.clientY);
+            });
+
+            function createPulseCircle(x, y) {
+                const circle = document.createElement('div');
+                circle.className = 'pulse-circle';
+                circle.style.left = (x - 50) + 'px';
+                circle.style.top = (y - 50) + 'px';
+                circle.style.width = '100px';
+                circle.style.height = '100px';
+                circle.style.opacity = '1';
                 
-                lines.forEach((line, index) => {
-                    const speed = (index + 1) * 0.5;
-                    const x = (mouseX * speed * 10) - 5;
-                    line.style.transform = `translateX(${x}px)`;
-                });
+                pulseContainer.appendChild(circle);
+                circles.push(circle);
+
+                // Animate circle
+                let size = 100;
+                const grow = setInterval(() => {
+                    size += 2;
+                    circle.style.width = size + 'px';
+                    circle.style.height = size + 'px';
+                    circle.style.left = (x - size/2) + 'px';
+                    circle.style.top = (y - size/2) + 'px';
+                    circle.style.opacity = (200 - size) / 100;
+
+                    if (size > 200) {
+                        clearInterval(grow);
+                        circle.remove();
+                        circles = circles.filter(c => c !== circle);
+                    }
+                }, 16);
+            }
+
+            // Parallax effect for gradient background
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                document.querySelector('.gradient-bg').style.transform = 
+                    `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
             });
         });
     </script>
