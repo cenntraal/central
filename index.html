@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central | OSINT Specialist</title>
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-surface: #111111;
+            --dark-card: #1a1a1a;
+            --dark-border: #333333;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent: #ff4444;
+            --accent-dark: #cc3333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 3rem 0 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--dark-border);
+            margin-bottom: 2rem;
+        }
+
+        .name {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tab {
+            padding: 15px 40px;
+            background-color: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+
+        .tab.active {
+            background-color: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .info-card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--dark-border);
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--dark-border);
+            transition: var(--transition);
+        }
+
+        .pricing-card:hover {
+            border-color: var(--accent);
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .price-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .price-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .price-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .price-details {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .project-card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--dark-border);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--dark-border);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="name">Central</div>
+        </header>
+
+        <div class="tabs-container">
+            <button class="tab active" data-tab="bio">BIO</button>
+            <button class="tab" data-tab="price">PRICE</button>
+            <button class="tab" data-tab="project">PROJECT</button>
+        </div>
+
+        <div id="bio" class="tab-content active">
+            <div class="info-card">
+                <div class="info-section">
+                    <div class="info-label">Name</div>
+                    <div class="info-value">Central</div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-label">Specializations</div>
+                    <div class="info-value">
+                        OSINT (Open Source Intelligence)<br>
+                        SE (Social Engineering)
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-label">Уровень специализации в сфере OSINT</div>
+                    <div class="info-value">Middle</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="price" class="tab-content">
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3 class="service-title">Деф (DEFF)</h3>
+                    <div class="price-item">
+                        <div class="price-amount">3 месяца</div>
+                        <div class="price-details">200 Telegram stars - 6$ @CryptoBot</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-amount">6 месяцев</div>
+                        <div class="price-details">250 Telegram stars - 7$ @CryptoBot</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-amount">Навсегда</div>
+                        <div class="price-details">300 Telegram stars - 8$ @CryptoBot</div>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3 class="service-title">Поиск информации</h3>
+                    <div class="price-item">
+                        <div class="price-amount">3$ - 18$</div>
+                        <div class="price-details">100 - 600 Telegram stars</div>
+                    </div>
+                    <div class="price-details" style="margin-top: 1rem;">
+                        Стоимость зависит от сложности поиска
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="project" class="tab-content">
+            <div class="project-card">
+                <h3 class="project-title">FortunessWheel</h3>
+                <p class="project-description">
+                    Колесо фортуны - проект для случайного выбора и принятия решений. 
+                    Инструмент для различных ситуаций, где требуется элемент случайности.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Central</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
