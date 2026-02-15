@@ -133,14 +133,62 @@
             box-shadow: 0 15px 40px rgba(255, 106, 0, 0.15);
         }
 
-        .card img {
+        /* Стили для мини-галереи внутри карточки */
+        .gallery-preview {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .gallery-preview img {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 12px;
-            margin-bottom: 15px;
             cursor: zoom-in;
             transition: 0.3s;
+        }
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(13, 13, 13, 0.7);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .gallery-nav:hover {
+            background: var(--primary);
+            color: #000;
+        }
+        .gallery-prev {
+            left: 10px;
+        }
+        .gallery-next {
+            right: 10px;
+        }
+        /* индикатор */
+        .gallery-index {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid rgba(255,106,0,0.5);
         }
 
         .card h3 {
@@ -358,8 +406,14 @@
                 </div>
                 <a href="#" class="btn-buy" onclick="buyItem('Аккаунт №8')">Купить</a>
             </div>
-            <div class="card">
-                <img src="10.jpg" onclick="openModal(this.src)">
+            <!-- КАРТОЧКА №9 с мини-галереей из двух фото: 10.jpg и 11.jpg -->
+            <div class="card" id="account9">
+                <div class="gallery-preview" id="gallery9">
+                    <img id="gallery9-img" src="10.jpg" onclick="openModal(this.src)" alt="Account 9 preview">
+                    <div class="gallery-nav gallery-prev" onclick="prevImage(9)">‹</div>
+                    <div class="gallery-nav gallery-next" onclick="nextImage(9)">›</div>
+                    <div class="gallery-index" id="gallery9-index">1/2</div>
+                </div>
                 <h3>Аккаунт #9</h3>
                 <div class="price-row">
                     <div class="price">440 ₽</div>
@@ -441,7 +495,9 @@
         contents.forEach(content => content.classList.remove('active'));
         buttons.forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        // Находим активную кнопку и добавляем класс (event не всегда доступен)
+        const activeBtn = Array.from(buttons).find(btn => btn.innerText.toLowerCase().includes(tabId === 'accs' ? 'аккаунты' : tabId === 'gold' ? 'голда' : 'буст'));
+        if (activeBtn) activeBtn.classList.add('active');
     }
 
     function toggleFAQ() {
@@ -458,7 +514,49 @@
         const text = encodeURIComponent(`Привет я по поводу товара: ${name}`);
         window.location.href = `https://t.me/KillerBeach?text=${text}`;
     }
+
+    // Галерея для аккаунта #9 (строго 2 фото: 10.jpg, 11.jpg)
+    const galleryImages = {
+        9: ['10.jpg', '11.jpg']
+    };
+    let currentIndex = {
+        9: 1
+    };
+
+    function updateGallery(accountId) {
+        const imgElement = document.getElementById(`gallery9-img`);
+        const indexSpan = document.getElementById(`gallery9-index`);
+        if (imgElement && indexSpan) {
+            imgElement.src = galleryImages[accountId][currentIndex[accountId] - 1];
+            indexSpan.innerText = currentIndex[accountId] + '/' + galleryImages[accountId].length;
+        }
+    }
+
+    window.prevImage = function(accountId) {
+        if (currentIndex[accountId] > 1) {
+            currentIndex[accountId]--;
+        } else {
+            currentIndex[accountId] = galleryImages[accountId].length; // зацикливание (опционально, можно оставить)
+        }
+        updateGallery(accountId);
+    };
+
+    window.nextImage = function(accountId) {
+        if (currentIndex[accountId] < galleryImages[accountId].length) {
+            currentIndex[accountId]++;
+        } else {
+            currentIndex[accountId] = 1; // зацикливание
+        }
+        updateGallery(accountId);
+    };
+
+    // инициализация при загрузке
+    window.onload = function() {
+        // убедимся что индекс корректный для 9 акка
+        if (!currentIndex[9]) currentIndex[9] = 1;
+        updateGallery(9);
+    };
 </script>
 
-</body>
+</body> 
 </html>
