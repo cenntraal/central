@@ -409,7 +409,7 @@
             <!-- КАРТОЧКА №9 с мини-галереей из двух фото: 10.jpg и 11.jpg -->
             <div class="card" id="account9">
                 <div class="gallery-preview" id="gallery9">
-                    <img id="gallery9-img" src="10.jpg" onclick="openModal(this.src)" alt="Account 9 preview">
+                    <img id="gallery9-img" src="11.jpg" onclick="openModal(this.src)" alt="Account 9 preview">
                     <div class="gallery-nav gallery-prev" onclick="prevImage(9)">‹</div>
                     <div class="gallery-nav gallery-next" onclick="nextImage(9)">›</div>
                     <div class="gallery-index" id="gallery9-index">1/2</div>
@@ -512,12 +512,12 @@
 
     function buyItem(name) {
         const text = encodeURIComponent(`Привет я по поводу товара: ${name}`);
-        window.location.href = `https://t.me/KillerBeach?text=${text}`;
+        window.location.href = `https://t.me/gengsale?text=${text}`;
     }
 
     // Галерея для аккаунта #9 (строго 2 фото: 10.jpg, 11.jpg)
     const galleryImages = {
-        9: ['10.jpg', '11.jpg']
+        9: ['11.jpg', '10.jpg']
     };
     let currentIndex = {
         9: 1
